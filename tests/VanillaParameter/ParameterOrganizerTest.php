@@ -186,6 +186,9 @@ class ParameterOrganizerTest extends PHPUnit_Framework_TestCase
 
     public function dataSomeExpectedTypes()
     {
+        $resource = mysql_connect();
+        $callable = function () {};
+
         return [
             // Mixed.
             1000 =>
@@ -195,17 +198,24 @@ class ParameterOrganizerTest extends PHPUnit_Framework_TestCase
 
             // Specified type.
             2000 =>
-            [ "hello",    [ "string" ] ],
+            [ "string",  [ "string" ] ],
+            [ 123,       [ "integer" ] ],
+            [ 1.23,      [ "float" ] ],
+            [ $resource, [ "resource" ] ],
+            [ [],        [ "array" ] ],
 
             // Max is both a string or a callable.
+            // But callable is not needly a string.
             // 3000 =>
-            // [ "max",      [ "string" ] ],
-            // [ "max",      [ "callable" ] ],
+            [ "max", [ "string" ] ],
+            [ "max", [ "callable" ] ],
+            [ $callable, [ "string" ], false ],
+            [ $callable, [ "callable" ] ],
 
             // stdClass is both string or a class.
             4000 =>
-            // [ stdClass::class, [ "object" ] ],
-            // [ stdClass::class, [ "string" ] ],
+            [ stdClass::class, [ "object" ] ],
+            [ stdClass::class, [ "string" ] ],
             [ new stdClass, [ stdClass::class ] ],
 
             // Class types.

@@ -144,8 +144,15 @@ class ParameterOrganizer
             return true;
         }
 
-        // If value is some kind of dependency, check if is subclass.
+        // Check if value is some kind of dependency.
         if (Helper::isDependency($value)) {
+            // A dependency is a string or an object.
+            if (in_array("string", $expectedTypes)
+            ||  in_array("object", $expectedTypes)) {
+                return true;
+            }
+
+            // Deeper dependency check.
             $dependencyTypes = array_filter($expectedTypes, [ Helper::class, "isDependency" ]);
 
             foreach ($dependencyTypes as $dependencyType) {
@@ -155,6 +162,14 @@ class ParameterOrganizer
             }
 
             return false;
+        }
+
+        // If value is a string, it can be a callable too.
+        if (is_string($value)) {
+            return in_array("string", $expectedTypes) || (
+                in_array("callable", $expectedTypes) &&
+                is_callable($value)
+            );
         }
 
         // Check if parameter type is on list.

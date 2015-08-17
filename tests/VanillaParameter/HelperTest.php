@@ -52,6 +52,7 @@ class HelperTest extends PHPUnit_Framework_TestCase
             [ "object",     "object" ],
             [ "array",      "array" ],
             [ "mixed",      "mixed" ],
+            [ "callable",   "callable" ],
 
             // Aliases.
             2000 =>

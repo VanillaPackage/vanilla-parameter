@@ -41,6 +41,7 @@ class Helper
             case "object":
             case "array":
             case "mixed":
+            case "callable":
                 return $typeLower;
                 break;
 
