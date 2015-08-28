@@ -7,6 +7,10 @@ use Rentalhost\VanillaParameter\Test;
 use Rentalhost\VanillaParameter\Test\A as ABase;
 use PHPUnit_Framework_TestCase;
 
+/**
+ * Class HelperTest
+ * @package Rentalhost\VanillaParameter
+ */
 class HelperTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -45,6 +49,9 @@ class HelperTest extends PHPUnit_Framework_TestCase
         static::assertSame($expectedNormalization, Helper::normalizeType($type));
     }
 
+    /**
+     * @return array
+     */
     public function dataNormalize()
     {
         return [
@@ -89,6 +96,9 @@ class HelperTest extends PHPUnit_Framework_TestCase
         static::assertSame($expectedNormalization, Helper::normalizeTypes($types));
     }
 
+    /**
+     * @return array
+     */
     public function dataNormalizeArray()
     {
         return [
@@ -120,10 +130,13 @@ class HelperTest extends PHPUnit_Framework_TestCase
         static::assertSame($expectedNormalization, Helper::normalizeValue($value));
     }
 
+    /**
+     * @return array
+     */
     public function dataNormalizeValue()
     {
         $resource = curl_init();
-        $stdclass = new stdclass;
+        $stdclass = new stdClass;
         $callable = function () {
         };
 

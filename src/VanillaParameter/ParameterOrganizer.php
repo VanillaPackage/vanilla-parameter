@@ -2,6 +2,10 @@
 
 namespace Rentalhost\VanillaParameter;
 
+/**
+ * Class ParameterOrganizer
+ * @package Rentalhost\VanillaParameter
+ */
 class ParameterOrganizer
 {
     /**
@@ -148,7 +152,7 @@ class ParameterOrganizer
     {
         // Allow if mixed was defined or if list is empty.
         if (!$expectedTypes ||
-            in_array('mixed', $expectedTypes)
+            in_array('mixed', $expectedTypes, true)
         ) {
             return true;
         }
@@ -156,8 +160,8 @@ class ParameterOrganizer
         // Check if value is some kind of dependency.
         if (Helper::isDependency($value)) {
             // A dependency is a string or an object.
-            if (in_array('string', $expectedTypes) ||
-                in_array('object', $expectedTypes)
+            if (in_array('string', $expectedTypes, true) ||
+                in_array('object', $expectedTypes, true)
             ) {
                 return true;
             }
@@ -176,13 +180,13 @@ class ParameterOrganizer
 
         // If value is a string, it can be a callable too.
         if (is_string($value)) {
-            return in_array('string', $expectedTypes) || (
-                in_array('callable', $expectedTypes) &&
+            return in_array('string', $expectedTypes, true) || (
+                in_array('callable', $expectedTypes, true) &&
                 is_callable($value)
             );
         }
 
         // Check if parameter type is on list.
-        return in_array(Helper::normalizeValue($value), $expectedTypes);
+        return in_array(Helper::normalizeValue($value), $expectedTypes, true);
     }
 }

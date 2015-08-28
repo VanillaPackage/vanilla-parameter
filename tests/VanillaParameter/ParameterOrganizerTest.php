@@ -7,6 +7,10 @@ use ReflectionMethod;
 use Rentalhost\VanillaParameter\Test;
 use PHPUnit_Framework_TestCase;
 
+/**
+ * Class ParameterOrganizerTest
+ * @package Rentalhost\VanillaParameter
+ */
 class ParameterOrganizerTest extends PHPUnit_Framework_TestCase
 {
     /**
@@ -189,6 +193,9 @@ class ParameterOrganizerTest extends PHPUnit_Framework_TestCase
         static::assertSame($expectedResult, $reflection->invoke($organizer, $value, $expectedTypes));
     }
 
+    /**
+     * @return array
+     */
     public function dataSomeExpectedTypes()
     {
         $resource = curl_init();

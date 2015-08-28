@@ -4,6 +4,10 @@ namespace Rentalhost\VanillaParameter;
 
 use Closure;
 
+/**
+ * Class Helper
+ * @package Rentalhost\VanillaParameter
+ */
 class Helper
 {
     /**

@@ -2,6 +2,10 @@
 
 namespace Rentalhost\VanillaParameter;
 
+/**
+ * Class Parameter
+ * @package Rentalhost\VanillaParameter
+ */
 class Parameter
 {
     /**
