@@ -2,5 +2,6 @@
 
 namespace Rentalhost\VanillaParameter\Test;
 
-interface BInterface extends AInterface {
+interface BInterface extends AInterface
+{
 }

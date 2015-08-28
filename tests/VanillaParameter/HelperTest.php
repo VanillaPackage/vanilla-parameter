@@ -15,29 +15,34 @@ class HelperTest extends PHPUnit_Framework_TestCase
      */
     public function testIsDependency()
     {
-        $this->assertTrue(Helper::isDependency(Test\A::class));
-        $this->assertTrue(Helper::isDependency(Test\AInterface::class));
-        $this->assertTrue(Helper::isDependency(ABase::class));
-        $this->assertTrue(Helper::isDependency("stdClass"));
-        $this->assertTrue(Helper::isDependency("\\stdClass"));
+        static::assertTrue(Helper::isDependency(Test\A::class));
+        static::assertTrue(Helper::isDependency(Test\AInterface::class));
+        static::assertTrue(Helper::isDependency(ABase::class));
+        static::assertTrue(Helper::isDependency('stdClass'));
+        static::assertTrue(Helper::isDependency("\\stdClass"));
 
-        $this->assertFalse(Helper::isDependency(function () { }));
+        static::assertFalse(Helper::isDependency(function () {
+        }));
 
-        $this->assertTrue(Helper::isDependency(new stdClass));
-        $this->assertTrue(Helper::isDependency(new Test\CallableClass));
+        static::assertTrue(Helper::isDependency(new stdClass));
+        static::assertTrue(Helper::isDependency(new Test\CallableClass));
 
-        $this->assertFalse(Helper::isDependency("UnknowClass"));
-        $this->assertFalse(Helper::isDependency(123));
+        static::assertFalse(Helper::isDependency('UnknowClass'));
+        static::assertFalse(Helper::isDependency(123));
     }
 
     /**
      * Test normalize method.
-     * @covers Rentalhost\VanillaParameter\Helper::normalizeType
+     *
+     * @param string $type                  Type to normalize.
+     * @param string $expectedNormalization Expected normalized type.
+     *
+     * @covers       Rentalhost\VanillaParameter\Helper::normalizeType
      * @dataProvider dataNormalize
      */
     public function testNormalize($type, $expectedNormalization)
     {
-        $this->assertSame($expectedNormalization, Helper::normalizeType($type));
+        static::assertSame($expectedNormalization, Helper::normalizeType($type));
     }
 
     public function dataNormalize()
@@ -45,94 +50,95 @@ class HelperTest extends PHPUnit_Framework_TestCase
         return [
             // Real names.
             1000 =>
-            [ "string",     "string" ],
-            [ "integer",    "integer" ],
-            [ "float",      "float" ],
-            [ "resource",   "resource" ],
-            [ "object",     "object" ],
-            [ "array",      "array" ],
-            [ "mixed",      "mixed" ],
-            [ "callable",   "callable" ],
-
+                [ 'string', 'string' ],
+            [ 'integer', 'integer' ],
+            [ 'float', 'float' ],
+            [ 'resource', 'resource' ],
+            [ 'object', 'object' ],
+            [ 'array', 'array' ],
+            [ 'mixed', 'mixed' ],
+            [ 'callable', 'callable' ],
             // Aliases.
             2000 =>
-            [ "bool",       "boolean" ],
-            [ "int",        "integer" ],
-            [ "double",     "float" ],
-            [ "any",        "mixed" ],
-            [ "*",          "mixed" ],
-
+                [ 'bool', 'boolean' ],
+            [ 'int', 'integer' ],
+            [ 'double', 'float' ],
+            [ 'any', 'mixed' ],
+            [ '*', 'mixed' ],
             // Case-insensitive.
             3000 =>
-            [ "STRING",     "string" ],
-            [ "ANY",        "mixed" ],
-
+                [ 'STRING', 'string' ],
+            [ 'ANY', 'mixed' ],
             // Invalid.
             4000 =>
-            [ "invalid",    null ],
+                [ 'invalid', null ],
         ];
     }
 
     /**
      * Test normalize types method.
-     * @covers Rentalhost\VanillaParameter\Helper::normalizeTypes
+     *
+     * @param string[]|string $types                 Types to normalize.
+     * @param string[]        $expectedNormalization Expected normalized types.
+     *
+     * @covers       Rentalhost\VanillaParameter\Helper::normalizeTypes
      * @dataProvider dataNormalizeArray
      */
-    public function testNormalizeArray($type, $expectedNormalization)
+    public function testNormalizeArray($types, $expectedNormalization)
     {
-        $this->assertSame($expectedNormalization, Helper::normalizeTypes($type));
+        static::assertSame($expectedNormalization, Helper::normalizeTypes($types));
     }
 
     public function dataNormalizeArray()
     {
         return [
             // Simple.
-            [ "string", [ "string" ] ],
-            [ [ "string" ], [ "string" ] ],
-            [ [ "string", "int" ], [ "string", "integer" ] ],
-
+            [ 'string', [ 'string' ] ],
+            [ [ 'string' ], [ 'string' ] ],
+            [ [ 'string', 'int' ], [ 'string', 'integer' ] ],
             // Class.
-            [ [ "string", "int", Test\A::class ], [ "string", "integer", Test\A::class ] ],
-            [ [ "string", "int", Test\B::class ], [ "string", "integer", Test\B::class ] ],
-
+            [ [ 'string', 'int', Test\A::class ], [ 'string', 'integer', Test\A::class ] ],
+            [ [ 'string', 'int', Test\B::class ], [ 'string', 'integer', Test\B::class ] ],
             // Interface.
             [ [ Test\BInterface::class ], [ Test\BInterface::class ] ],
-
             // Undefined class.
-            [ [ "SomeUndefinedClass" ], [ "SomeUndefinedClass" ] ],
+            [ [ 'SomeUndefinedClass' ], [ 'SomeUndefinedClass' ] ],
         ];
     }
 
     /**
      * Test normalize value method.
-     * @covers Rentalhost\VanillaParameter\Helper::normalizeValue
+     *
+     * @param mixed  $value                 Value to normalize.
+     * @param string $expectedNormalization Expected normalized value type.
+     *
+     * @covers       Rentalhost\VanillaParameter\Helper::normalizeValue
      * @dataProvider dataNormalizeValue
      */
     public function testNormalizeValue($value, $expectedNormalization)
     {
-        $this->assertSame($expectedNormalization, Helper::normalizeValue($value));
+        static::assertSame($expectedNormalization, Helper::normalizeValue($value));
     }
 
     public function dataNormalizeValue()
     {
-        $resource = mysql_connect();
+        $resource = curl_init();
         $stdclass = new stdclass;
-        $callable = function () {};
+        $callable = function () {
+        };
 
         return [
             // Simple.
-            [ "string",  "string" ],
-            [ 123,       "integer" ],
-            [ 1.23,      "float" ],
-            [ $resource, "resource" ],
-            [ [],        "array" ],
-
+            [ 'string', 'string' ],
+            [ 123, 'integer' ],
+            [ 1.23, 'float' ],
+            [ $resource, 'resource' ],
+            [ [ ], 'array' ],
             // Class.
-            [ $stdclass, "stdClass" ],
-
+            [ $stdclass, 'stdClass' ],
             // Callable.
-            [ "max",     "callable" ],
-            [ $callable, "callable" ],
+            [ 'max', 'callable' ],
+            [ $callable, 'callable' ],
         ];
     }
 }

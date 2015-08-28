@@ -2,8 +2,6 @@
 
 namespace Rentalhost\VanillaParameter;
 
-use Closure;
-
 class ParameterOrganizer
 {
     /**
@@ -32,7 +30,7 @@ class ParameterOrganizer
 
     /**
      * Stores current reference.
-     * @var reference
+     * @var mixed
      */
     private $reference;
 
@@ -44,7 +42,8 @@ class ParameterOrganizer
 
     /**
      * Construct the organizer.
-     * @param  array  $parameters Parameter organizer.
+     *
+     * @param  array $parameters Parameter organizer.
      */
     public function __construct(array $parameters)
     {
@@ -56,21 +55,23 @@ class ParameterOrganizer
 
     /**
      * Add a new expected paramter.
-     * @param  reference       $reference   Variable to save parameter.
+     *
+     * @param  mixed           $reference   Variable to save parameter.
      * @param  string|string[] $expectTypes Valid parameter types (default: mixed).
      * @param  boolean         $required    Is parameter is required (default: false).
+     *
      * @return $this
      */
     public function add(&$reference, $expectTypes = null, $required = null)
     {
-        unset($this->reference);
+        unset( $this->reference );
 
         // Add current reference to instance.
         $this->reference = &$reference;
         $this->referenceValidated = false;
 
         // Parse expected types.
-        $expectTypes = Helper::normalizeTypes($expectTypes ?: []);
+        $expectTypes = Helper::normalizeTypes($expectTypes ?: [ ]);
 
         if ($this->index < $this->parametersCount) {
             $currentParameter = $this->parameters[$this->index];
@@ -98,6 +99,9 @@ class ParameterOrganizer
 
     /**
      * Validate if has expected number of parameters.
+     *
+     * @param integer $count Expected number of parameters.
+     *
      * @return $this
      */
     public function expects($count)
@@ -109,7 +113,9 @@ class ParameterOrganizer
 
     /**
      * Specify a default value, when parameter is not defined on current index.
+     *
      * @param  mixed $value Default value.
+     *
      * @return $this
      */
     public function defaultValue($value)
@@ -132,28 +138,32 @@ class ParameterOrganizer
 
     /**
      * Check if value matches with expected type.
+     *
      * @param  mixed $value         Value to check.
      * @param  array $expectedTypes Expected types.
+     *
      * @return boolean
      */
     private function someExpectedTypes($value, array $expectedTypes)
     {
         // Allow if mixed was defined or if list is empty.
-        if (empty($expectedTypes)
-        ||  in_array("mixed", $expectedTypes)) {
+        if (!$expectedTypes ||
+            in_array('mixed', $expectedTypes)
+        ) {
             return true;
         }
 
         // Check if value is some kind of dependency.
         if (Helper::isDependency($value)) {
             // A dependency is a string or an object.
-            if (in_array("string", $expectedTypes)
-            ||  in_array("object", $expectedTypes)) {
+            if (in_array('string', $expectedTypes) ||
+                in_array('object', $expectedTypes)
+            ) {
                 return true;
             }
 
             // Deeper dependency check.
-            $dependencyTypes = array_filter($expectedTypes, [ Helper::class, "isDependency" ]);
+            $dependencyTypes = array_filter($expectedTypes, [ Helper::class, 'isDependency' ]);
 
             foreach ($dependencyTypes as $dependencyType) {
                 if (is_a($value, $dependencyType)) {
@@ -166,8 +176,8 @@ class ParameterOrganizer
 
         // If value is a string, it can be a callable too.
         if (is_string($value)) {
-            return in_array("string", $expectedTypes) || (
-                in_array("callable", $expectedTypes) &&
+            return in_array('string', $expectedTypes) || (
+                in_array('callable', $expectedTypes) &&
                 is_callable($value)
             );
         }

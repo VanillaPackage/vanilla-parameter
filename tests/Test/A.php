@@ -2,5 +2,6 @@
 
 namespace Rentalhost\VanillaParameter\Test;
 
-class A {
+class A
+{
 }

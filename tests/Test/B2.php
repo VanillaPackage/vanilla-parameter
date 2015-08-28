@@ -2,5 +2,6 @@
 
 namespace Rentalhost\VanillaParameter\Test;
 
-class B2 extends A2 {
+class B2 extends A2
+{
 }

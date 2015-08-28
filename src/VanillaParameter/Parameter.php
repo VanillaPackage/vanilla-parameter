@@ -2,8 +2,6 @@
 
 namespace Rentalhost\VanillaParameter;
 
-use Closure;
-
 class Parameter
 {
     /**
@@ -16,7 +14,9 @@ class Parameter
 
     /**
      * Construct a new parameter organizer.
-     * @param  array  $parameters Parameter organizer.
+     *
+     * @param  array $parameters Parameter organizer.
+     *
      * @return ParameterOrganizer
      */
     public static function organize(array $parameters)

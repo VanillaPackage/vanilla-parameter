@@ -2,5 +2,6 @@
 
 namespace Rentalhost\VanillaParameter\Test;
 
-class C extends B implements BInterface {
+class C extends B implements BInterface
+{
 }

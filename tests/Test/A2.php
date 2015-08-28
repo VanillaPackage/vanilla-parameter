@@ -2,5 +2,6 @@
 
 namespace Rentalhost\VanillaParameter\Test;
 
-class A2 implements AInterface {
+class A2 implements AInterface
+{
 }

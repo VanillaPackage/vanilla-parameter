@@ -2,8 +2,10 @@
 
 namespace Rentalhost\VanillaParameter\Test;
 
-class CallableClass {
-    public function __invoke() {
+class CallableClass
+{
+    public function __invoke()
+    {
         return true;
     }
 }
