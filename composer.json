@@ -18,9 +18,11 @@
         }
     },
 
-    "authors": [{
-        "name": "David Rodrigues",
-        "email": "david.rodrigues@rentalhost.net"
-    }],
+    "authors": [
+        {
+            "name": "David Rodrigues",
+            "email": "david.rodrigues@rentalhost.net"
+        }
+    ],
     "license": "MIT"
 }
